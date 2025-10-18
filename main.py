@@ -64,7 +64,7 @@ def pose_detection_callback(
             )
 
             if distance < DISTANCE_THRESHOLD:
-                print(distance)
+                print("STOP TOUCHING YOUR FACE")
                 if sound is None or not sound.is_alive():
                     sound = playsound3.playsound("sounds/no.mp3", block=False)
 
