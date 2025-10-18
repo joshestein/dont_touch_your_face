@@ -23,6 +23,7 @@ def main():
         running_mode=VisionRunningMode.LIVE_STREAM,
         result_callback=detection_callback,
     )
+    face_detector = FaceDetector.create_from_options(options)
 
     count = 0
     cap = cv.VideoCapture(0)
@@ -31,25 +32,25 @@ def main():
         print("Cannot open camera")
         exit()
 
-    with FaceDetector.create_from_options(options) as detector:
-        while cap.isOpened():
-            ret, frame = cap.read()
-            count += 1
+    while cap.isOpened():
+        ret, frame = cap.read()
+        count += 1
 
-            if not ret:
-                print("Can't receive fram (stream end?). Exiting...")
-                break
+        if not ret:
+            print("Can't receive fram (stream end?). Exiting...")
+            break
 
-            image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
+        image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
 
-            cv.imshow("frame", frame)
-            if cv.waitKey(1) == ord("q"):
-                break
+        cv.imshow("frame", frame)
+        if cv.waitKey(1) == ord("q"):
+            break
 
-            detector.detect_async(image, count)
+        face_detector.detect_async(image, count)
 
-        cap.release()
-        cv.destroyAllWindows()
+    face_detector.close()
+    cap.release()
+    cv.destroyAllWindows()
 
 
 if __name__ == "__main__":
