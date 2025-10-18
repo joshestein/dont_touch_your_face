@@ -102,7 +102,6 @@ def main():
 
         image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
 
-        cv.imshow("frame", frame)
         if cv.waitKey(1) == ord("q"):
             break
 
