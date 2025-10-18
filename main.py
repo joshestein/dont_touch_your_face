@@ -1,6 +1,6 @@
 import cv2 as cv
 import mediapipe as mp
-
+import playsound3
 
 BaseOptions = mp.tasks.BaseOptions
 FaceDetector = mp.tasks.vision.FaceDetector
@@ -33,6 +33,8 @@ FACE_INDEXES = [
 
 DISTANCE_THRESHOLD = 0.65
 
+sound = None
+
 
 def calculate_distance(first, second):
     return abs(first.x - second.x) + abs(first.y - second.y) + abs(first.z - second.z)
@@ -41,6 +43,7 @@ def calculate_distance(first, second):
 def pose_detection_callback(
     result: PoseLandmarkerResult, output_image: mp.Image, timestamp_ms: int
 ):
+    global sound
     if not result.pose_landmarks:
         return
 
@@ -60,6 +63,8 @@ def pose_detection_callback(
 
             if distance < DISTANCE_THRESHOLD:
                 print(distance)
+                if sound is None or not sound.is_alive():
+                    sound = playsound3.playsound("sounds/no.mp3", block=False)
 
 
 def initialise_detector():
