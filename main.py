@@ -1,3 +1,5 @@
+import time
+
 import cv2 as cv
 import mediapipe as mp
 import playsound3
@@ -85,6 +87,10 @@ def main():
     if not cap.isOpened():
         print("Cannot open camera")
         exit()
+
+    # idk there is always a weird situation where the detector thinks it can see my thumbs when the script starts
+    # instead of trying to be fancy let's just wait a little
+    time.sleep(3)
 
     while cap.isOpened():
         ret, frame = cap.read()
