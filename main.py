@@ -46,6 +46,10 @@ def pose_detection_callback(
     result: PoseLandmarkerResult, output_image: mp.Image, timestamp_ms: int
 ):
     global sound
+
+    if sound is not None and sound.is_alive():
+        return
+
     if not result.pose_landmarks:
         return
 
