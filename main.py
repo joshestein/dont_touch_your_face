@@ -31,7 +31,7 @@ FACE_INDEXES = [
     10,  # mouth (right)
 ]
 
-DISTANCE_THRESHOLD = 0.65
+DISTANCE_THRESHOLD = 0.4
 
 sound = None
 
