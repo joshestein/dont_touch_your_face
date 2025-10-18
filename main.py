@@ -6,6 +6,9 @@ BaseOptions = mp.tasks.BaseOptions
 FaceDetector = mp.tasks.vision.FaceDetector
 FaceDetectorOptions = mp.tasks.vision.FaceDetectorOptions
 FaceDetectorResult = mp.tasks.vision.FaceDetectorResult
+PoseLandmarker = mp.tasks.vision.PoseLandmarker
+PoseLandmarkerOptions = mp.tasks.vision.PoseLandmarkerOptions
+PoseLandmarkerResult = mp.tasks.vision.PoseLandmarkerResult
 VisionRunningMode = mp.tasks.vision.RunningMode
 
 
@@ -15,15 +18,28 @@ def face_detection_callback(
     print(result)
 
 
+def pose_detection_callback(
+    result: FaceDetectorResult, output_image: mp.Image, timestamp_ms: int
+):
+    print(result)
+
+
 def main():
-    options = FaceDetectorOptions(
+    face_options = FaceDetectorOptions(
         base_options=BaseOptions(
             model_asset_path="models/blaze_face_short_range.tflite"
         ),
         running_mode=VisionRunningMode.LIVE_STREAM,
         result_callback=face_detection_callback,
     )
-    face_detector = FaceDetector.create_from_options(options)
+    face_detector = FaceDetector.create_from_options(face_options)
+
+    pose_options = PoseLandmarkerOptions(
+        base_options=BaseOptions(model_asset_path="models/pose_landmarker_lite.task"),
+        running_mode=VisionRunningMode.LIVE_STREAM,
+        result_callback=pose_detection_callback,
+    )
+    pose_detector = PoseLandmarker.create_from_options(pose_options)
 
     count = 0
     cap = cv.VideoCapture(0)
@@ -47,8 +63,10 @@ def main():
             break
 
         face_detector.detect_async(image, count)
+        pose_detector.detect_async(image, count)
 
     face_detector.close()
+    pose_detector.close()
     cap.release()
     cv.destroyAllWindows()
 
