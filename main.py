@@ -9,7 +9,7 @@ FaceDetectorResult = mp.tasks.vision.FaceDetectorResult
 VisionRunningMode = mp.tasks.vision.RunningMode
 
 
-def detection_callback(
+def face_detection_callback(
     result: FaceDetectorResult, output_image: mp.Image, timestamp_ms: int
 ):
     print(result)
@@ -21,7 +21,7 @@ def main():
             model_asset_path="models/blaze_face_short_range.tflite"
         ),
         running_mode=VisionRunningMode.LIVE_STREAM,
-        result_callback=detection_callback,
+        result_callback=face_detection_callback,
     )
     face_detector = FaceDetector.create_from_options(options)
 
