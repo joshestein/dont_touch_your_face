@@ -105,10 +105,6 @@ def main():
             break
 
         image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
-
-        if cv.waitKey(1) == ord("q"):
-            break
-
         pose_detector.detect_async(image, count)
 
     pose_detector.close()
