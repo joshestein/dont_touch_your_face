@@ -24,7 +24,7 @@ def pose_detection_callback(
     print(result)
 
 
-def main():
+def initialise_detectors():
     face_options = FaceDetectorOptions(
         base_options=BaseOptions(
             model_asset_path="models/blaze_face_short_range.tflite"
@@ -40,7 +40,11 @@ def main():
         result_callback=pose_detection_callback,
     )
     pose_detector = PoseLandmarker.create_from_options(pose_options)
+    return face_detector, pose_detector
 
+
+def main():
+    face_detector, pose_detector = initialise_detectors()
     count = 0
     cap = cv.VideoCapture(0)
 
