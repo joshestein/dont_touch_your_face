@@ -57,7 +57,7 @@ def main():
         count += 1
 
         if not ret:
-            print("Can't receive fram (stream end?). Exiting...")
+            print("Can't receive frame (stream end?). Exiting...")
             break
 
         image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
