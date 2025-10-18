@@ -31,7 +31,7 @@ def main():
     count = 0
     cap = cv.VideoCapture(0)
 
-    if not (cap.isOpened()):
+    if not cap.isOpened():
         print("Cannot open camera")
         exit()
 
